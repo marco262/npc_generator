@@ -77,12 +77,9 @@ export function set_options(hp="average", damage="average") {
       * average: The average of the range given, taking into account racial and other bonuses.
       * random: A random value from within the range given, taking into account racial and other bonuses.
     The `damage` parameter accepts the same values as `hp`, as well as the following:
-      * average_dice: A best-guess for a dice value based on the average value of the damage range, with a modifier
-                      to balance things out. If a weapon value is provided (either weapon name or dice value),
-                      that weapon value will be used instead, and the damage modifier will be adjusted as appropriate.
-      * random_dice: A best-guess for a dice value based on a random value from the damage range, with a modifier
-                     to balance things out. If a weapon value is provided (either weapon name or dice value),
-                     that weapon value will be used instead, and the damage modifier will be adjusted as appropriate.
+      * dice: A best-guess for a dice value based on the damage range, with a modifier to bring the average dice roll
+              up to the average of the damage range. If a weapon value is provided (either weapon name or dice value),
+              that weapon value will be used instead, and the damage modifier will be adjusted as appropriate.
     @param hp
     @param dmg
      */
@@ -90,15 +87,15 @@ export function set_options(hp="average", damage="average") {
     g_dmg = damage;
 }
 
-export function create_npc(name, cr, race=null, weapons=null, type=null, hp=null, dmg=null) {
+export function create_npc(name, cr, race=null, type=null, hp=null, dmg=null) {
     if (name === "") {
         name = "Steve";
     }
     let cr_values = cr_dict[cr];
     if (race === null)
         race = "Human";
-    if (weapons === null)
-        weapons = ["Weapon attack"];
+    // if (weapons === null)
+    //     weapons = ["Weapon attack"];
     if (type === null) {
         type = "minion";
     }
@@ -118,8 +115,8 @@ export function create_npc(name, cr, race=null, weapons=null, type=null, hp=null
         "ac": cr_values["ac"],
         "hp": get_hp_value(cr_values["hp"], hp),
         "attack": cr_values["attack"],
-        "total_damage": get_dmg_value(cr_values["total_damage"], weapons, dmg),
-        "weapons": weapons,
+        "damage": get_dmg_value(cr_values["total_damage"], dmg, cr_values["num_attacks"]),
+        // "weapons": weapons,
         "save_dc": cr_values["save_dc"],
         "num_attacks": cr_values["num_attacks"],
     }
@@ -137,8 +134,6 @@ function rand_int(min, max) {
 }
 
 function get_hp_value(values, hp_option) {
-    console.log(values);
-    console.log(hp_option);
     if (hp_option === "average") {
         return avg(values);
     } else if (hp_option === "random") {
@@ -150,11 +145,34 @@ function get_hp_value(values, hp_option) {
     return null;
 }
 
-function get_dmg_value(values, weapons, dmg_option) {
+function get_dmg_value(values, dmg_option, num_attacks) {
     if (dmg_option === "average") {
-        return avg(values);
+        return Math.round(avg(values) / num_attacks);
     } else if (dmg_option === "random") {
-        return rand_int(values[0], values[1]);
+        return Math.round(rand_int(values[0], values[1]) / num_attacks);
+    } else if (dmg_option === "dice") {
+        let die_type = 6;
+        let die_avg = 3.5;
+        let avg_damage = Math.round(avg(values) / num_attacks);
+        console.log(`Average damage: ${avg_damage}`);
+        if (avg_damage <= 1) {
+            return 1;
+        }
+        let num_dice = Math.floor(avg_damage / die_avg);  // Number of d6s
+        console.log(`Num dice: ${num_dice}`);
+        if (num_dice === 0) {
+            die_type = 4;
+            die_avg = 2.5;
+            num_dice = Math.round(avg_damage / die_avg);  // Number of d4s
+            console.log(`Num dice: ${num_dice}`);
+        }
+        let mod = Math.floor(avg_damage - num_dice * die_avg);
+        console.log(`Mod: ${mod}`);
+        if (mod === 0) {
+            return `${avg_damage} (${num_dice}d${die_type})`;
+        } else {
+            return `${avg_damage} (${num_dice}d${die_type} + ${mod})`;
+        }
     }
     console.error(`Invalid damage option: ${dmg_option}`);
     return null;

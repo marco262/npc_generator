@@ -22,10 +22,10 @@
             <td><label for="race_selector">Race</label></td>
             <td><select name="race" id="race_selector"></select></td>
         </tr>
-        <tr>
-            <td><label for="weapon_selector">Weapon</label></td>
-            <td><select name="weapon" id="weapon_selector"></select></td>
-        </tr>
+<!--        <tr>-->
+<!--            <td><label for="weapon_selector">Weapon</label></td>-->
+<!--            <td><select name="weapon" id="weapon_selector"></select></td>-->
+<!--        </tr>-->
         <tr>
             <td><label for="type_selector">Type</label></td>
             <td><select name="type" id="type_selector"></select></td>
@@ -43,10 +43,12 @@
             </p>
             <p>
                 Damage<br>
-                <input type="radio" id="damage_average" name="damage_option" value="average" checked>
+                <input type="radio" id="damage_average" name="damage_option" value="average">
                 <label for="damage_average">Average</label><br>
                 <input type="radio" id="damage_random" name="damage_option" value="random">
                 <label for="damage_random">Random</label><br>
+                <input type="radio" id="damage_dice" name="damage_option" value="dice" checked>
+                <label for="damage_dice">Dice</label><br>
             </p>
         </details>
     </p>
