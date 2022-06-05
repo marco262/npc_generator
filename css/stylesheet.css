@@ -1,0 +1,22 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-image: url('moroccan-flower-dark.png');
+}
+
+code {
+    background-color: lightgrey;
+    padding: 0.1rem 0.2rem;
+    border: 1px dashed black;
+}
+
+#content {
+  width: 60vw;
+  margin: auto;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: black;
+}
+
+#hp_damage_options {
+    cursor: pointer;
+}

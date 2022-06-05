@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./css/stylesheet.css">
+    <title>NPC Generator</title>
+</head>
+<body>
+
+<div id="content">
+    <h1>Combat NPC Generator</h1>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" id="name"></td>
+        </tr>
+        <tr>
+            <td><label for="cr_selector">CR</label></td>
+            <td><select name="cr" id="cr_selector"></select></td>
+        </tr>
+        <tr>
+            <td><label for="race_selector">Race</label></td>
+            <td><select name="race" id="race_selector"></select></td>
+        </tr>
+        <tr>
+            <td><label for="weapon_selector">Weapon</label></td>
+            <td><select name="weapon" id="weapon_selector"></select></td>
+        </tr>
+        <tr>
+            <td><label for="type_selector">Type</label></td>
+            <td><select name="type" id="type_selector"></select></td>
+        </tr>
+    </table>
+    <p>
+        <details>
+            <summary id="hp_damage_options">HP and Damage options</summary>
+            <p>
+                HP<br>
+                <input type="radio" id="hp_average" name="hp_option" value="average" checked>
+                <label for="hp_average">Average</label><br>
+                <input type="radio" id="hp_random" name="hp_option" value="random">
+                <label for="hp_random">Random</label><br>
+            </p>
+            <p>
+                Damage<br>
+                <input type="radio" id="damage_average" name="damage_option" value="average" checked>
+                <label for="damage_average">Average</label><br>
+                <input type="radio" id="damage_random" name="damage_option" value="random">
+                <label for="damage_random">Random</label><br>
+            </p>
+        </details>
+    </p>
+    <div id="generate_button_container">
+        <button id="generate">Generate</button>
+    </div>
+    <hr>
+    <div id="creature_stats" hidden>
+        <h1 id="creature_name"></h1>
+        <div id="creature_traits">
+            AC: <span id="armor_class"></span><br>
+            HP: <span id="hit_points"></span><br>
+            Skills: Untrained <span id="skills_untrained"></span>,
+                    Proficient <span id="skills_proficient"></span>,
+                    Expertise <span id="skills_expertise"></span><br>
+        </div>
+        <h2 id="attacks_header">Attack</h2>
+        <div id="attack">
+            <span id="attack_name"></span>: <span id="attack_bonus"></span> / <span id="damage"></span> damage
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { init } from "./js";
+    init();
+</script>
+
+</body>
+</html>
