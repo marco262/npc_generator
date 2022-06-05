@@ -48,12 +48,17 @@ const races = {
     "Half-elf": {},
     "Tiefling": {},
 }
-const weapons = {
-    "Weapon attack": {},
-    "Shortsword": {},
-    "Scimitar": {},
+const die_types = {
+    "d2": 1.5,
+    "d3": 2,
+    "d4": 2.5,
+    "d6": 3.5,
+    "d8": 4.5,
+    "d10": 5.5,
+    "d12": 6.5,
+    "d20": 10.5,
 }
-const types = {
+const roles = {
     "Artillery": {},
     "Brute": {},
     "Minion": {},
@@ -67,7 +72,7 @@ export function get_options() {
     /*
     Returns the available CR, Race, and Weapon values, as well as the HP and Damage options.
      */
-    return [cr_list, Object.keys(races), Object.keys(weapons), Object.keys(types), g_hp, g_dmg];
+    return [cr_list, Object.keys(races), Object.keys(roles), Object.keys(die_types), g_hp, g_dmg];
 }
 
 export function set_options(hp="average", damage="average") {
@@ -87,17 +92,16 @@ export function set_options(hp="average", damage="average") {
     g_dmg = damage;
 }
 
-export function create_npc(name, cr, race=null, type=null, hp=null, dmg=null) {
+export function create_npc(name, cr, race=null, role=null, weapon_name=null, damage_die_type=null, hp=null, dmg=null) {
+    console.log([name, cr, race, role, weapon_name, damage_die_type, hp, dmg]);
     if (name === "") {
         name = "Steve";
     }
     let cr_values = cr_dict[cr];
     if (race === null)
         race = "Human";
-    // if (weapons === null)
-    //     weapons = ["Weapon attack"];
-    if (type === null) {
-        type = "minion";
+    if (role === null) {
+        role = "minion";
     }
     if (hp === null) {
         hp = g_hp;
@@ -109,14 +113,14 @@ export function create_npc(name, cr, race=null, type=null, hp=null, dmg=null) {
         "name": name,
         "cr": cr,
         "race": race,
-        "type": type,
+        "role": role,
         "stat_bonus": cr_values["stat_bonus"],
         "prof_bonus": cr_values["prof_bonus"],
         "ac": cr_values["ac"],
         "hp": get_hp_value(cr_values["hp"], hp),
         "attack": cr_values["attack"],
-        "damage": get_dmg_value(cr_values["total_damage"], dmg, cr_values["num_attacks"]),
-        // "weapons": weapons,
+        "weapon_name": (weapon_name === null || weapon_name === "") ? "Weapon attack" : weapon_name,
+        "damage": get_dmg_value(cr_values["total_damage"], dmg, cr_values["num_attacks"], damage_die_type),
         "save_dc": cr_values["save_dc"],
         "num_attacks": cr_values["num_attacks"],
     }
@@ -145,33 +149,46 @@ function get_hp_value(values, hp_option) {
     return null;
 }
 
-function get_dmg_value(values, dmg_option, num_attacks) {
+function get_dmg_value(values, dmg_option, num_attacks, die_type=null) {
     if (dmg_option === "average") {
         return Math.round(avg(values) / num_attacks);
     } else if (dmg_option === "random") {
         return Math.round(rand_int(values[0], values[1]) / num_attacks);
     } else if (dmg_option === "dice") {
-        let die_type = 6;
-        let die_avg = 3.5;
         let avg_damage = Math.round(avg(values) / num_attacks);
         console.log(`Average damage: ${avg_damage}`);
-        if (avg_damage <= 1) {
-            return 1;
+        let die_avg;
+        if (die_type === null) {
+            die_avg = 3.5;  // Default to d6
+        } else {
+            die_avg = die_types[die_type];
         }
+        console.log(`Die type: ${die_type}`);
+        console.log(`Die average: ${die_avg}`);
         let num_dice = Math.floor(avg_damage / die_avg);  // Number of d6s
         console.log(`Num dice: ${num_dice}`);
         if (num_dice === 0) {
-            die_type = 4;
-            die_avg = 2.5;
-            num_dice = Math.round(avg_damage / die_avg);  // Number of d4s
+            if (die_type === null) {  // If die_type is undefined and the damage is too small, allow us to drop to d4
+                die_type = "d4";
+                die_avg = 2.5;
+                num_dice = Math.round(avg_damage / die_avg);  // Number of d4s
+            }
+            if (num_dice === 0) {
+                num_dice = 1;  // Always roll a minimum of 1 die, and let the modifier be negative
+            }
             console.log(`Num dice: ${num_dice}`);
         }
         let mod = Math.floor(avg_damage - num_dice * die_avg);
         console.log(`Mod: ${mod}`);
+        if (die_type === null) {
+            die_type = "d6";
+        }
         if (mod === 0) {
-            return `${avg_damage} (${num_dice}d${die_type})`;
+            return `${avg_damage} (${num_dice}${die_type})`;
+        } else if (mod > 0) {
+            return `${avg_damage} (${num_dice}${die_type} + ${mod})`;
         } else {
-            return `${avg_damage} (${num_dice}d${die_type} + ${mod})`;
+            return `${avg_damage} (${num_dice}${die_type} - ${Math.abs(mod)})`;
         }
     }
     console.error(`Invalid damage option: ${dmg_option}`);
