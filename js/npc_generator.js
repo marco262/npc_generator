@@ -1,70 +1,5 @@
-const cr_list = [
-    "0", "1/8", "1/4", "1/2", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-    "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
-];
-const cr_dict = {
-    "0": {"stat_bonus": 0, "prof_bonus": 2, "ac": 10, "hp": [1, 6], "attack": 2, "total_damage": [0, 1], "save_dc": 12, "num_attacks": 1},
-    "1/8": {"stat_bonus": 1, "prof_bonus": 2, "ac": 11, "hp": [7, 35], "attack": 3, "total_damage": [2, 3], "save_dc": 13, "num_attacks": 1},
-    "1/4": {"stat_bonus": 1, "prof_bonus": 2, "ac": 12, "hp": [36, 49], "attack": 3, "total_damage": [4, 5], "save_dc": 13, "num_attacks": 1},
-    "1/2": {"stat_bonus": 1, "prof_bonus": 2, "ac": 13, "hp": [50, 70], "attack": 3, "total_damage": [6, 8], "save_dc": 13, "num_attacks": 1},
-    "1": {"stat_bonus": 1, "prof_bonus": 2, "ac": 13, "hp": [71, 85], "attack": 3, "total_damage": [9, 14], "save_dc": 13, "num_attacks": 2},
-    "2": {"stat_bonus": 1, "prof_bonus": 2, "ac": 13, "hp": [86, 100], "attack": 3, "total_damage": [15, 20], "save_dc": 13, "num_attacks": 2},
-    "3": {"stat_bonus": 2, "prof_bonus": 2, "ac": 13, "hp": [101, 115], "attack": 4, "total_damage": [21, 26], "save_dc": 13, "num_attacks": 2},
-    "4": {"stat_bonus": 2, "prof_bonus": 2, "ac": 14, "hp": [116, 130], "attack": 5, "total_damage": [27, 32], "save_dc": 14, "num_attacks": 2},
-    "5": {"stat_bonus": 2, "prof_bonus": 3, "ac": 15, "hp": [131, 145], "attack": 6, "total_damage": [33, 38], "save_dc": 15, "num_attacks": 2},
-    "6": {"stat_bonus": 2, "prof_bonus": 3, "ac": 15, "hp": [146, 160], "attack": 6, "total_damage": [39, 44], "save_dc": 15, "num_attacks": 3},
-    "7": {"stat_bonus": 2, "prof_bonus": 3, "ac": 15, "hp": [161, 175], "attack": 6, "total_damage": [45, 50], "save_dc": 15, "num_attacks": 3},
-    "8": {"stat_bonus": 3, "prof_bonus": 3, "ac": 16, "hp": [176, 190], "attack": 7, "total_damage": [51, 56], "save_dc": 16, "num_attacks": 3},
-    "9": {"stat_bonus": 3, "prof_bonus": 3, "ac": 17, "hp": [191, 205], "attack": 7, "total_damage": [57, 62], "save_dc": 16, "num_attacks": 3},
-    "10": {"stat_bonus": 3, "prof_bonus": 4, "ac": 17, "hp": [206, 220], "attack": 7, "total_damage": [63, 68], "save_dc": 16, "num_attacks": 3},
-    "11": {"stat_bonus": 3, "prof_bonus": 4, "ac": 17, "hp": [221, 235], "attack": 8, "total_damage": [69, 74], "save_dc": 17, "num_attacks": 4},
-    "12": {"stat_bonus": 3, "prof_bonus": 4, "ac": 17, "hp": [236, 250], "attack": 8, "total_damage": [75, 80], "save_dc": 17, "num_attacks": 4},
-    "13": {"stat_bonus": 4, "prof_bonus": 5, "ac": 18, "hp": [251, 265], "attack": 8, "total_damage": [81, 86], "save_dc": 18, "num_attacks": 4},
-    "14": {"stat_bonus": 4, "prof_bonus": 5, "ac": 18, "hp": [266, 280], "attack": 8, "total_damage": [87, 92], "save_dc": 18, "num_attacks": 4},
-    "15": {"stat_bonus": 4, "prof_bonus": 5, "ac": 18, "hp": [281, 295], "attack": 8, "total_damage": [93, 98], "save_dc": 18, "num_attacks": 4},
-    "16": {"stat_bonus": 4, "prof_bonus": 5, "ac": 18, "hp": [296, 310], "attack": 9, "total_damage": [99, 104], "save_dc": 18, "num_attacks": 5},
-    "17": {"stat_bonus": 4, "prof_bonus": 6, "ac": 19, "hp": [311, 325], "attack": 10, "total_damage": [105, 110], "save_dc": 19, "num_attacks": 5},
-    "18": {"stat_bonus": 4, "prof_bonus": 6, "ac": 19, "hp": [326, 340], "attack": 10, "total_damage": [111, 116], "save_dc": 19, "num_attacks": 5},
-    "19": {"stat_bonus": 4, "prof_bonus": 6, "ac": 19, "hp": [341, 355], "attack": 10, "total_damage": [117, 122], "save_dc": 19, "num_attacks": 5},
-    "20": {"stat_bonus": 4, "prof_bonus": 6, "ac": 19, "hp": [356, 400], "attack": 10, "total_damage": [123, 140], "save_dc": 19, "num_attacks": 6},
-    "21": {"stat_bonus": 4, "prof_bonus": 7, "ac": 19, "hp": [401, 445], "attack": 11, "total_damage": [141, 158], "save_dc": 20, "num_attacks": 6},
-    "22": {"stat_bonus": 4, "prof_bonus": 7, "ac": 19, "hp": [446, 490], "attack": 11, "total_damage": [159, 176], "save_dc": 20, "num_attacks": 6},
-    "23": {"stat_bonus": 4, "prof_bonus": 7, "ac": 19, "hp": [491, 535], "attack": 11, "total_damage": [177, 194], "save_dc": 20, "num_attacks": 6},
-    "24": {"stat_bonus": 5, "prof_bonus": 7, "ac": 19, "hp": [536, 580], "attack": 12, "total_damage": [195, 212], "save_dc": 21, "num_attacks": 6},
-    "25": {"stat_bonus": 5, "prof_bonus": 8, "ac": 19, "hp": [581, 625], "attack": 12, "total_damage": [213, 230], "save_dc": 21, "num_attacks": 6},
-    "26": {"stat_bonus": 5, "prof_bonus": 8, "ac": 19, "hp": [626, 670], "attack": 12, "total_damage": [231, 248], "save_dc": 21, "num_attacks": 6},
-    "27": {"stat_bonus": 5, "prof_bonus": 8, "ac": 19, "hp": [671, 715], "attack": 13, "total_damage": [249, 266], "save_dc": 22, "num_attacks": 6},
-    "28": {"stat_bonus": 5, "prof_bonus": 8, "ac": 19, "hp": [716, 760], "attack": 13, "total_damage": [267, 284], "save_dc": 22, "num_attacks": 6},
-    "29": {"stat_bonus": 5, "prof_bonus": 9, "ac": 19, "hp": [761, 805], "attack": 13, "total_damage": [285, 302], "save_dc": 22, "num_attacks": 6},
-    "30": {"stat_bonus": 5, "prof_bonus": 9, "ac": 19, "hp": [806, 850], "attack": 14, "total_damage": [303, 320], "save_dc": 23, "num_attacks": 6},
-}
-const races = {
-    "Dwarf": {},
-    "Elf": {},
-    "Gnome": {},
-    "Halfling": {},
-    "Human": {},
-    "Dragonborn": {},
-    "Half-elf": {},
-    "Tiefling": {},
-}
-const die_types = {
-    "d2": 1.5,
-    "d3": 2,
-    "d4": 2.5,
-    "d6": 3.5,
-    "d8": 4.5,
-    "d10": 5.5,
-    "d12": 6.5,
-    "d20": 10.5,
-}
-const roles = {
-    "Artillery": {},
-    "Brute": {},
-    "Minion": {},
-    "Soldier": {},
-    "Skirmisher": {},
-}
+import {cr_dict, cr_list, die_types, races, roles} from "./data.js";
+
 let g_hp = "average";
 let g_dmg = "average";
 
@@ -92,83 +27,130 @@ export function set_options(hp="average", damage="average") {
     g_dmg = damage;
 }
 
-export function create_npc(name, cr, race=null, role=null, weapon_name=null, damage_die_type=null, hp=null, dmg=null) {
-    console.log([name, cr, race, role, weapon_name, damage_die_type, hp, dmg]);
-    if (name === "") {
-        name = "Steve";
-    }
-    let cr_values = cr_dict[cr];
-    if (race === null)
+export function create_npc(cr, race="", role="", damage_die_type="", hp="", dmg="") {
+    if (race === "")
         race = "Human";
-    if (role === null) {
-        role = "minion";
-    }
-    if (hp === null) {
+    if (hp === "") {
         hp = g_hp;
     }
-    if (dmg === null) {
+    if (dmg === "") {
         dmg = g_dmg;
     }
+    const cr_values = cr_dict[cr];
+    const atk_dict = get_attack(cr, race, role);
+    const def_dict = get_defense(cr, race, role);
+    const damage = get_dmg_value(atk_dict["total_damage"], dmg, atk_dict["num_attacks"], damage_die_type);
+    const save_dc = atk_dict["save_dc"];
     return {
-        "name": name,
         "cr": cr,
         "race": race,
         "role": role,
+        "speed": get_speed(races[race]),
         "stat_bonus": cr_values["stat_bonus"],
         "prof_bonus": cr_values["prof_bonus"],
-        "ac": cr_values["ac"],
-        "hp": get_hp_value(cr_values["hp"], hp),
-        "attack": cr_values["attack"],
-        "weapon_name": (weapon_name === null || weapon_name === "") ? "Weapon attack" : weapon_name,
-        "damage": get_dmg_value(cr_values["total_damage"], dmg, cr_values["num_attacks"], damage_die_type),
-        "save_dc": cr_values["save_dc"],
-        "num_attacks": cr_values["num_attacks"],
+        "ac": def_dict["ac"],
+        "hp": get_hp_value(def_dict["hp"], hp),
+        "damage_resistances": get_list(race, role, "damage_resistances"),
+        "damage_immunities": get_list(race, role, "damage_immunities"),
+        "senses": get_trait(race, role, "senses"),
+        "special_abilities": fill_placeholders(get_list(race, role, "special_abilities"), damage, save_dc),
+        "actions": fill_placeholders(get_list(race, role, "actions"), damage, save_dc),
+        "reactions": fill_placeholders(get_list(race, role, "reactions"), damage, save_dc),
+        "attack": atk_dict["attack"],
+        "damage": damage,
+        "save_dc": save_dc,
+        "num_attacks": atk_dict["num_attacks"],
     }
 }
 
-function avg(tuple) {
-    return Math.round((tuple[0] + tuple[1]) / 2);
+function get_speed(d) {
+    if (d.hasOwnProperty("speed"))
+        return d["speed"];
+    return "30 ft.";
 }
 
-function rand_int(min, max) {
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values_inclusive
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+function get_attack(cr, race, role) {
+    return get_adjusted_cr_dict(cr, race, role, "atk_cr");
+}
+
+function get_defense(cr, race, role) {
+    return get_adjusted_cr_dict(cr, race, role, "def_cr");
+}
+
+function get_adjusted_cr_dict(cr, race, role, key) {
+    let d = races[race];
+    if (d.hasOwnProperty(key))
+        cr = adjust_cr(cr, d[key]);
+    d = roles[role];
+    if (d.hasOwnProperty(key))
+        cr = adjust_cr(cr, d[key]);
+    return cr_dict[cr];
+}
+
+function adjust_cr(cr, adjustment) {
+    if (adjustment === 0) {
+        return cr;
+    }
+    let index = cr_list.indexOf(cr.toString());
+    index += adjustment;
+    index = Math.min(Math.max(index, 0), cr_list.length - 1);
+    return cr_list[index];
 }
 
 function get_hp_value(values, hp_option) {
     if (hp_option === "average") {
         return avg(values);
     } else if (hp_option === "random") {
-        let r = rand_int(values[0], values[1]);
-        console.log(r);
-        return r;
+        return rand_int(values[0], values[1]);
     }
     console.error(`Invalid HP option: ${hp_option}`);
     return null;
 }
 
-function get_dmg_value(values, dmg_option, num_attacks, die_type=null) {
+function get_trait(race, role, key) {
+    const list = get_list(race, role, key);
+    return list.join(",");
+}
+
+function fill_placeholders(list, damage, save_dc) {
+    for (let i=0; i < list.length; i++) {
+        list[i] = list[i].replaceAll("{damage}", damage);
+        list[i] = list[i].replaceAll("{save_dc}", save_dc);
+    }
+    return list;
+}
+
+function get_list(race, role, key) {
+    let list = [];
+    let d = races[race];
+    if (d.hasOwnProperty(key))
+        list = list.concat(d[key]);
+    d = roles[role];
+    if (d.hasOwnProperty(key))
+        list = list.concat(d[key]);
+    return list;
+}
+
+function get_dmg_value(values, dmg_option, num_attacks, die_type) {
     if (dmg_option === "average") {
         return Math.round(avg(values) / num_attacks);
     } else if (dmg_option === "random") {
         return Math.round(rand_int(values[0], values[1]) / num_attacks);
     } else if (dmg_option === "dice") {
         let avg_damage = Math.round(avg(values) / num_attacks);
-        console.log(`Average damage: ${avg_damage}`);
+        // console.log(`Average damage: ${avg_damage}`);
         let die_avg;
-        if (die_type === null) {
+        if (die_type === "") {
             die_avg = 3.5;  // Default to d6
         } else {
             die_avg = die_types[die_type];
         }
-        console.log(`Die type: ${die_type}`);
-        console.log(`Die average: ${die_avg}`);
+        // console.log(`Die type: ${die_type}`);
+        // console.log(`Die average: ${die_avg}`);
         let num_dice = Math.floor(avg_damage / die_avg);  // Number of d6s
-        console.log(`Num dice: ${num_dice}`);
+        // console.log(`Num dice: ${num_dice}`);
         if (num_dice === 0) {
-            if (die_type === null) {  // If die_type is undefined and the damage is too small, allow us to drop to d4
+            if (die_type === "") {  // If die_type is undefined and the damage is too small, allow us to drop to d4
                 die_type = "d4";
                 die_avg = 2.5;
                 num_dice = Math.round(avg_damage / die_avg);  // Number of d4s
@@ -176,11 +158,11 @@ function get_dmg_value(values, dmg_option, num_attacks, die_type=null) {
             if (num_dice === 0) {
                 num_dice = 1;  // Always roll a minimum of 1 die, and let the modifier be negative
             }
-            console.log(`Num dice: ${num_dice}`);
+            // console.log(`Num dice: ${num_dice}`);
         }
         let mod = Math.floor(avg_damage - num_dice * die_avg);
-        console.log(`Mod: ${mod}`);
-        if (die_type === null) {
+        // console.log(`Mod: ${mod}`);
+        if (die_type === "") {
             die_type = "d6";
         }
         if (mod === 0) {
@@ -194,3 +176,38 @@ function get_dmg_value(values, dmg_option, num_attacks, die_type=null) {
     console.error(`Invalid damage option: ${dmg_option}`);
     return null;
 }
+
+function avg(tuple) {
+    return Math.round((tuple[0] + tuple[1]) / 2);
+}
+
+function rand_int(min, max) {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values_inclusive
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+
+// Unit Tests
+
+function assertEqual(actual, expected) {
+    if (actual !== expected) {
+        console.error(`${actual} (type=${typeof actual}) !== ${expected} (type=${typeof expected})`);
+    }
+}
+
+assertEqual(adjust_cr("0", 1),  "1/8");
+assertEqual(adjust_cr("0", 2),  "1/4");
+assertEqual(adjust_cr("0", 3),  "1/2");
+assertEqual(adjust_cr("0", 4),  "1");
+assertEqual(adjust_cr("0", 5),  "2");
+assertEqual(adjust_cr("29", 5),  "30");
+assertEqual(adjust_cr("2", 0),  "2");
+assertEqual(adjust_cr("2", -1),  "1");
+assertEqual(adjust_cr("2", -2),  "1/2");
+assertEqual(adjust_cr("2", -3),  "1/4");
+assertEqual(adjust_cr("2", -4),  "1/8");
+assertEqual(adjust_cr("2", -5),  "0");
+assertEqual(adjust_cr("2", -6),  "0");

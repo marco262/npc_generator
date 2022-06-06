@@ -11,10 +11,6 @@
     <h1>Combat NPC Generator</h1>
     <table>
         <tr>
-            <td><label for="name">Name</label></td>
-            <td><input type="text" id="name"></td>
-        </tr>
-        <tr>
             <td><label for="cr_selector">CR</label></td>
             <td><select name="cr" id="cr_selector"></select></td>
         </tr>
@@ -63,16 +59,47 @@
     <div id="creature_stats" hidden>
         <h1 id="creature_name"></h1>
         <div id="creature_traits">
-            AC: <span id="armor_class"></span><br>
-            HP: <span id="hit_points"></span><br>
-            Skills: Untrained <span id="skills_untrained"></span>,
-                    Proficient <span id="skills_proficient"></span>,
-                    Expertise <span id="skills_expertise"></span><br>
+            <table>
+                <tr>
+                    <td><b>AC</b></td>
+                    <td id="armor_class"></td>
+                </tr>
+                <tr>
+                    <td><b>HP</b></td>
+                    <td id="hit_points"></td>
+                </tr>
+                <tr>
+                    <td><b>Speed</b></td>
+                    <td id="speed"></td>
+                </tr>
+                <tr>
+                    <td><b>Skills</b></td>
+                    <td>
+                        Untrained <span id="skills_untrained"></span>,
+                        Proficient <span id="skills_proficient"></span>,
+                        Expertise <span id="skills_expertise"></span>
+                    </td>
+                </tr>
+                <tr id="damage_resistances">
+                    <td><b>Dmg Res</b></td>
+                    <td><span class="text"></span></td>
+                </tr>
+                <tr id="damage_immunities">
+                    <td><b>Dmg Imm</b></td>
+                    <td><span class="text"></span></td>
+                </tr>
+                <tr id="senses">
+                    <td><b>Senses</b></td>
+                    <td><span class="text"></span></td>
+                </tr>
+            </table>
         </div>
-        <h2 id="attacks_header">Attack</h2>
-        <div id="attack">
-            <span id="attack_name"></span>: <span id="attack_bonus"></span> / <span id="damage"></span> damage
-        </div>
+        <h2 id="special_abilities_header">Special Abilities</h2>
+        <div id="special_abilities"></div>
+        <h2 id="actions_header">Actions</h2>
+        <div id="actions"></div>
+        <h2 id="reactions_header">Reactions</h2>
+        <div id="reactions"></div>
     </div>
 </div>
 
