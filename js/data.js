@@ -102,7 +102,6 @@ export const races = {
     "Aarakocra": {
         // "atk_cr": 1,
         "speed": "20 ft., fly 50 ft.",
-        "senses": "darkvision 60 ft.",
         "special_abilities": [
             "<b><em>Dive Attack.</em></b> If the aarakocra is flying and dives at least 30 feet straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 3 (1d6) damage to the target."
         ]
@@ -173,8 +172,9 @@ export const races = {
     },
     "Duergar": {
         // "atk_cr": 2,  // +1 for Enlarge, +1 for Invisibility
-        // "def_cr": 1,
+        // "def_cr": 2,  // +1 for Duergar Resilience, +1 for Invisibility
         "atk_cr": -1,
+        "def_cr": -1,
         "speed": "25 ft.",
         "special_abilities": [
             "<b><em>Duergar Resilience.</em></b> The duergar has advantage on saving throws against poison, spells, and illusions, as well as to resist being charmed or paralyzed.",
